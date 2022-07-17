@@ -1,0 +1,1 @@
+python -m torch.distributed.launch --nproc_per_node=8 main.py --dataset shanghai --lr [0.001]*150000 --max_epoch 150000 --model_name ssrl_stage1 --save_dir output/ssrl_stage1/
