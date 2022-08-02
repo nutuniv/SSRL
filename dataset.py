@@ -160,7 +160,7 @@ class Multi_Dataset(data.Dataset):
                 for i in range(len(self.list)):
                     self.list[i] = data_root + 'SH_Train_i3d/' + self.list[i]
                 for size in self.multi_patch_size:
-                    self.patch_list[str(size)] = [video_name.replace('SH_Train_i3d','SH_PATCH'+str(size)+'_i3d').replace('_i3d','_patch'+str(size)+'_i3d') for video_name in self.list]
+                    self.patch_list[str(size)] = [data_root + 'SH_PATCH'+str(size)+'_i3d/' + video_name.split('/')[-1].replace('_i3d','_patch'+str(size)+'_i3d') for video_name in self.list]
 
 
             elif self.dataset == 'ucf':
@@ -178,7 +178,7 @@ class Multi_Dataset(data.Dataset):
                 for i in range(len(self.list)):
                     self.list[i] = data_root + 'SH_Test_i3d/' + self.list[i]
                 for size in self.multi_patch_size:
-                    self.patch_list[str(size)] = [video_name.replace('SH_Test_i3d','SH_PATCH'+str(size)+'_i3d').replace('_i3d','_patch'+str(size)+'_i3d') for video_name in self.list]
+                    self.patch_list[str(size)] = [data_root + 'SH_PATCH'+str(size)+'_i3d/' + video_name.split('/')[-1].replace('_i3d','_patch'+str(size)+'_i3d') for video_name in self.list]
 
 
             elif self.dataset == 'ucf':
