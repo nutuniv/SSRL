@@ -222,7 +222,7 @@ class Multi_Dataset(data.Dataset):
                 features = features.transpose(1, 0, 2)  # [10, B, T, F]
                 divided_features = []
                 for feature in features:
-                    feature = process_feat(feature, self.data_len)  # divide a video into 32 segments
+                    feature = process_feat(feature, self.num_segments)  # divide a video into 32 segments
                     divided_features.append(feature)
                 divided_features = np.array(divided_features, dtype=np.float32)
             else:

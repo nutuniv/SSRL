@@ -245,7 +245,7 @@ class Model(nn.Module):
             out = out.view(-1, t, f)
             out = self.Aggregate_base(out)
 
-        elif self.model_name == 'ssrl_stage3':
+        elif self.model_name == 'ssrl_stage2':
             input_clip = out[:,:10,:,:]
             patch_size_split = [(size//10)*(size%10) for size in self.multi_patch_size]
             input_patch = list(torch.split(out[:,10:,:,:],patch_size_split ,dim=1))
