@@ -43,7 +43,7 @@ class Dataset(data.Dataset):
                     
                 for i in range(len(self.list)):
                     self.list[i] = data_root + 'SH_Train_i3d/' + self.list[i]
-                    self.patch_list.append(self.list[i].replace('SH_Train_i3d','SH_PATCH35_i3d').replace('_i3d','_patch35_i3d'))
+                  
 
 
             elif self.dataset == 'ucf':
@@ -52,39 +52,23 @@ class Dataset(data.Dataset):
                 else:
                     self.list = self.list[:810]
                 for i in range(len(self.list)):
-                    self.list[i] = data_root + 'UCF_Train_i3d/' + self.list[i]
-                    self.patch_list.append(self.list[i].replace('UCF_Train_i3d', 'UCF_Train_patch47_i3d_32').replace('_i3d','_patch47_i3d'))
+                    self.list[i] = data_root + 'UCF_Train_i3d_32/' + self.list[i]
+                    
         else:
             if self.dataset == 'shanghai':
                 for i in range(len(self.list)):
                     self.list[i] = data_root + 'SH_Test_i3d/' + self.list[i]
-                    self.patch_list.append(self.list[i].replace('SH_Test_i3d','SH_PATCH35_i3d').replace('_i3d','_patch35_i3d'))
+                    
 
             elif self.dataset == 'ucf':
                 for i in range(len(self.list)):
-                    self.list[i] = data_root + 'UCF_Test_i3d' + self.list[i]
-                    self.patch_list.append(self.list[i].replace('UCF_Test_i3d', 'UCF_Test_patch47_i3d').replace('_i3d','_patch47_i3d'))
+                    self.list[i] = data_root + 'UCF_Test_i3d/' + self.list[i]
+          
 
     def __getitem__(self, index):
         label = self.get_label() # get video level label 0/1
         features = np.load(self.list[index].strip('\n'), allow_pickle=True)
         features = np.array(features, dtype=np.float32)
-
-        if self.patch_mode:
-            patch_features = np.load(self.patch_list[index].strip('\n'), allow_pickle=True)
-            patch_features = np.array(patch_features, dtype=np.float32)
-            if self.dataset == 'shanghai':
-                lastfeat = patch_features[-1][np.newaxis, :, :]
-                if features.shape[0] > patch_features.shape[0]:
-                    while features.shape[0] > patch_features.shape[0]:
-                        patch_features = np.concatenate((patch_features, lastfeat), axis=0)
-                elif features.shape[0] < patch_features.shape[0]:
-                    patch_features = patch_features[:features.shape[0]]
-            if self.test_mode or self.dataset == 'shanghai':
-                features = np.concatenate((features, patch_features), axis=1)
-            else:
-                features = np.concatenate((features, patch_features), axis=0)
-
 
         if self.tranform is not None:
             features = self.tranform(features)
@@ -171,7 +155,7 @@ class Multi_Dataset(data.Dataset):
                 for i in range(len(self.list)):
                     self.list[i] = data_root + 'UCF_Train_i3d_32/' + self.list[i]
                 for size in self.multi_patch_size:
-                    self.patch_list[str(size)] = [video_name.replace('UCF_Train_i3d','UCF_Train_patch'+str(size)+'_i3d').replace('_i3d','_patch'+str(size)+'_i3d') for video_name in self.list]
+                    self.patch_list[str(size)] = [video_name.replace('_i3d','_patch'+str(size)+'_i3d') for video_name in self.list]
 
         else:
             if self.dataset == 'shanghai':
@@ -185,7 +169,7 @@ class Multi_Dataset(data.Dataset):
                 for i in range(len(self.list)):
                     self.list[i] = data_root + 'UCF_Test_i3d/' + self.list[i]
                 for size in self.multi_patch_size:
-                    self.patch_list[str(size)] = [video_name.replace('UCF_Test_i3d','UCF_Test_patch' + str(size) +'_i3d').replace('_i3d','_patch' + str(size) + '_i3d') for video_name in self.list]
+                    self.patch_list[str(size)] = [video_name.replace('_i3d','_patch' + str(size) + '_i3d') for video_name in self.list]
 
     def __getitem__(self, index):
 
@@ -198,12 +182,6 @@ class Multi_Dataset(data.Dataset):
             for key in self.patch_list.keys():
                 feat = np.load(self.patch_list[key][index].strip('\n'), allow_pickle=True)
                 patch_feat = np.array(feat,dtype=np.float32)
-                if self.dataset == 'shanghai':
-                    lastfeat = patch_feat[-1][np.newaxis, :, :]
-                    while features.shape[0] > patch_feat.shape[0]:
-                        patch_feat = np.concatenate((patch_feat, lastfeat), axis=0)
-                    if features.shape[0] < patch_feat.shape[0]:
-                        patch_feat = patch_feat[:features.shape[0]]
                 patch_feat_all.append(patch_feat)
             if self.test_mode or self.dataset == 'shanghai':
                 patch_feat_all = np.concatenate(patch_feat_all, axis=1)
