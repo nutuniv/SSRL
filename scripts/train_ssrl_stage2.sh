@@ -1,1 +1,2 @@
-python -m torch.distributed.launch --nproc_per_node=8 main.py --dataset shanghai --lr [0.001]*150000 --max_epoch 150000 --model_name ssrl_stage2 --save_dir output/ssrl_stage2/ --multi_patch_mode
+python -m torch.distributed.launch --nproc_per_node=8 main.py --dataset shanghai --lr [0.001]*150000 --max_epoch 150000 --model_name ssrl_stage2 --save_dir output/ssrl_stage2/ --multi_patch_mode --train_part --last_stage_ckpt 'last_ckpts/best_auc_stage1.pkl' --multi_patch_size 23  
+# You can save the best model trained in stage1 as 'last_ckpts/best_auc_stage1.pkl'

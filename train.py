@@ -88,10 +88,11 @@ def train(args,nloader, aloader, model, batch_size, optimizer,  device):
             #freeze bn
             model.module.Aggregate_clip.eval()
             if args.multi_patch_mode:
-                for i ,size in enumerate(args.multi_patch_size):
-                    if  size == 23 or size == 35:
-                        model.module.Aggregate_patch[i].eval()
-                        model.module.patch_to_clip[i].eval()
+                frozen_patch_size = args.multi_patch_size.copy()
+                frozen_patch_size.pop()
+                for i ,size in enumerate(frozen_patch_size):
+                    model.module.Aggregate_patch[i].eval()
+                    model.module.patch_to_clip[i].eval()
 
 
         score_abnormal, score_normal, feat_select_abn, feat_select_normal, feat_abn_bottom, \

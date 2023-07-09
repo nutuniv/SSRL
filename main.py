@@ -38,6 +38,15 @@ if __name__ == '__main__':
 
     model = Model(args, args.feature_size, args.batch_size, args.num_segments)
 
+    if args.last_stage_ckpt:
+        pretrained_state_dict = torch.load(args.last_stage_ckpt)
+        model_state_dict = model.state_dict()
+        model_state_dict.update(pretrained_state_dict)
+        if args.train_part:
+            for key, value in model.named_parameters():
+                if key in pretrained_state_dict.keys():
+                    value.requires_grad = False
+
     for name, value in model.named_parameters():
         if value.requires_grad:
             logger.info(name)

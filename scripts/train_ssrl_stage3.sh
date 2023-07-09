@@ -1,0 +1,1 @@
+python -m torch.distributed.launch --nproc_per_node=8 main.py --dataset shanghai --lr [0.001]*150000 --max_epoch 150000 --model_name ssrl_stage3 --save_dir output/ssrl_stage3/ --multi_patch_mode --train_part --last_stage_ckpt 'last_ckpts/best_auc_stage2.pkl' --multi_patch_size 23 35  

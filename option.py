@@ -14,6 +14,7 @@ parser.add_argument('--max_epoch', type = int, default = 150000, help = 'maximum
 parser.add_argument('--seed', type = int, default = 10, help = 'seeds')
 parser.add_argument('--num_segments',type = int, default = 32, help = 'number of segments per video')
 parser.add_argument('--checkpoint', type = str, default = None, help = 'checkpoint file')
+parser.add_argument('--last_stage_ckpt', type = str, default = None, help = 'last training stage checkpoint file')
 parser.add_argument('--save_dir',type = str, default = 'output/', help = 'dir to save ckpt and logs')
 parser.add_argument('--patch_mode', dest = 'patch_mode', action = 'store_true')
 parser.add_argument('--train_part', dest = 'train_part', action = 'store_true')

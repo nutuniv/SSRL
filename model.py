@@ -198,12 +198,11 @@ class Model(nn.Module):
         self.k_abn = self.num_segments // 10
         self.k_nor = self.num_segments // 10
         self.model_name = args.model_name
-        
 
         if args.model_name == 'ssrl_stage1':
-            self.Aggregate_base = Aggregate(len_feature=n_features)
+            self.Aggregate_clip = Aggregate(len_feature=n_features)
 
-        elif args.model_name == 'ssrl_stage2':
+        elif args.model_name in  ['ssrl_stage2', 'ssrl_stage3', 'ssrl_stage4']:
             self.multi_patch_size = args.multi_patch_size
             Aggregate_patch = []
             patch_to_clip = []
@@ -243,9 +242,9 @@ class Model(nn.Module):
 
         if self.model_name == 'ssrl_stage1':
             out = out.view(-1, t, f)
-            out = self.Aggregate_base(out)
+            out = self.Aggregate_clip(out)
 
-        elif self.model_name == 'ssrl_stage2':
+        elif self.model_name in ['ssrl_stage2', 'ssrl_stage3', 'ssrl_stage4']:
             input_clip = out[:,:10,:,:]
             patch_size_split = [(size//10)*(size%10) for size in self.multi_patch_size]
             input_patch = list(torch.split(out[:,10:,:,:],patch_size_split ,dim=1))

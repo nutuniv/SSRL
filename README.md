@@ -53,11 +53,19 @@ Please download extracted i3d features for ShanghaiTech and UCF-Crime dataset fr
 
 #### Training on single node
 
-For example, the command for training SSRL on 8 GPUs is as following:
+Step-by-step training:
 
 ```bash
+sh scripts/train_ssrl_stage1.sh
+
 sh scripts/train_ssrl_stage2.sh
+
+sh scripts/train_ssrl_stage3.sh
+
+sh scripts/train_ssrl_stage4.sh
 ```
+
+
 
 
 
