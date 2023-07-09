@@ -47,7 +47,7 @@ This project is released under the [MIT license](./LICENSE).
 
 ### Dataset preparation
 
-Please download extracted i3d features for ShanghaiTech and UCF-Crime dataset from [Baidu Wangpan (extract code: wxxy)](https://pan.baidu.com/s/1gWotx_lzjBbCFx1xcPHGzQ) and put them under the coderoot.
+Please download extracted i3d features and checkpoints for ShanghaiTech and UCF-Crime dataset from [Baidu Wangpan (extract code: wxxy)](https://pan.baidu.com/s/1gWotx_lzjBbCFx1xcPHGzQ) and put them under the coderoot.
 
 ### Training
 
